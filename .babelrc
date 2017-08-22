@@ -8,6 +8,13 @@
         "libraryName": "mint-ui",
         "style": true 
       }
-    ]],'transform-runtime'
+    ]],
+    ["component", [
+      { 
+        "libraryName": "element-ui",
+        "styleLibraryName": "theme-default"
+      }
+    ]],
+    'transform-runtime'
   ]
 }

@@ -61,7 +61,9 @@ body{
     white-space: normal !important;
     text-overflow: ellipsis;
     word-wrap: break-word;
-	
+	-webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+	text-align:justify
 }
 .ellipsis-2{
     -webkit-line-clamp: 2;

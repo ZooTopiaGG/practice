@@ -27,6 +27,7 @@ html {
 body {
   margin: 0;
   font-size: 0.28rem;
+  line-height: 1.2
 }
 
 /*浏览器滚动条样式*/

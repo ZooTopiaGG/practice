@@ -51,7 +51,9 @@
 	}
 	.info>p:nth-child(1){
 		color: #333;
-		font-size: 0.32rem
+		font-size: 0.32rem;
+		margin-bottom: 0.2rem;
+		margin-top:0.1rem;
 	}
 	.num{
 		color:#f58144;

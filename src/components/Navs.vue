@@ -1,5 +1,5 @@
 <template>
-  <div class="nav" v-show="footShow">
+  <div class="nav" v-show="headShow">
     <mt-header fixed :title="title"></mt-header>
   </div>
 </template>
@@ -9,8 +9,10 @@
     computed:mapGetters([
       'title',
       'footShow',
+      'headShow',
       'changeTitle'
     ]),
+   
     methods:{
      
     },
@@ -29,7 +31,9 @@
 </script>
 <style type="text/css">
 	.mint-header,.nav{
-    height: 0.8rem;
+    height: 0.88rem;
+    z-index: 999;
+    font-size: 0.32rem;
   }
   .mint-header{
     position: fixed;

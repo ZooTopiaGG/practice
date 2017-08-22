@@ -66,20 +66,24 @@
 			</div>
 			<div class="lawyer_list flex flex-1 flex-pack-justify">
 				<div>
-					<img src="../assets/images/new_zjm_icon49@2x.png">
-					<p>尤大大</p>
+					<img v-if="g_review_most_list.avatar" :src="g_review_most_list.avatar">
+					<img v-else src="../assets/images/new_zjm_icon49@2x.png">
+					<p>{{ g_review_most_list.lawyer_name }}</p>
 				</div>
 				<div>
-					<img src="../assets/images/new_zjm_icon49@2x.png">
-					<p>尤大大</p>
+					<img v-if="g_review_most_list.avatar" :src="g_review_most_list.avatar">
+					<img v-else src="../assets/images/new_zjm_icon49@2x.png">
+					<p>{{ g_review_most_list.lawyer_name }}</p>
 				</div>
 				<div>
-					<img src="../assets/images/new_zjm_icon49@2x.png">
-					<p>尤大大</p>
+					<img v-if="r_fastest_list.avatar" :src="r_fastest_list.avatar">
+					<img v-else src="../assets/images/new_zjm_icon49@2x.png">
+					<p>{{ r_fastest_list.lawyer_name }}</p>
 				</div>
 				<div>
-					<img src="../assets/images/new_zjm_icon49@2x.png">
-					<p>尤大大</p>
+					<img v-if="r_words_most_list.avatar" :src="r_words_most_list.avatar">
+					<img v-else src="../assets/images/new_zjm_icon49@2x.png">
+					<p>{{ r_words_most_list.lawyer_name }}</p>
 				</div>
 			</div>
 		</div>
@@ -90,17 +94,17 @@
 				<span>优质解答</span>
 			</div>
 			<ul class="solutions_list">
-				<li class="clear" v-for="(val,index) in [1,2,3,4]">
+				<li class="clear" v-for="(val,index) in solution">
 					<div class="flex flex-1">
-						<img src="../assets/images/new_zjm_icon49@2x.png">
+						<img v-if="val.Avatar" :src="val.Avatar">
+						<img v-else src="../assets/images/new_zjm_icon49@2x.png">
 						<div>
-							<p class="name">陈浩文律师</p>
-							<p class="desc ellipsis ellipsis-2">Mint UI 包含丰富的 CSS 和 JS 组件，能够满足日常的移动端开发需要。通过它，可以快速构建出风格统一的页面，提升开发效率。
-							</p>
+							<p class="name">{{ val.u_names }}律师</p>
+							<p class="desc ellipsis ellipsis-2">{{ val.desc }}</p>
 						</div>
 					</div>
 					<div class="rt type">
-						消费维权
+						{{ val.city }}
 					</div>
 				</li>
 			</ul>
@@ -118,14 +122,15 @@
 			</div>
 			<div >
 				<ul class="news_list">
-					<li v-for="(val,index) in list" class="flex flex-1" @click="toNewsDetails(index)" :key='index'>
-						<img src="../assets/images/New_zjm_icon19@2x.png">
+					<li v-for="(val,index) in news" class="flex flex-1" @click="toNewsDetails(val.id)" :key='index'>
+						<img v-if="val.icon" :src="val.icon">
+						<img v-else src="../assets/images/New_zjm_icon19@2x.png">
 						<div>
-							<h2>高孔坠物导致人死，坠物的主人应负相应的法律责任吗？</h2>
-							<p>高孔坠物导致人死，坠物的主</p>
+							<h2>{{ val.title }}</h2>
+							<p class="ellipsis">{{ val.summary }}</p>
 							<div class="clear">
-								<span class="lt">热点咨询</span>
-								<span class="rt">141条评论</span>
+								<span class="lt">{{ val.board_text }}</span>
+								<span class="rt">{{ val.review_count }}条评论</span>
 							</div>
 						</div>
 					</li>
@@ -141,13 +146,33 @@
 </div>
 </template>
 <script>
+	import Vue from 'vue'
 	import { mapGetters } from 'vuex'
 	import News from './News.vue'
+	import axios from 'axios'
+	import qs from 'qs'
+	import { Toast , Indicator } from 'mint-ui'
+
+	Vue.filter('len5',(arr)=>{
+		if(arr.length>5){
+			arr.length = 5;
+		}
+		let len = arr
+		console.log(len)
+		return len
+	})
+
 	export default {
 		name:'home',
 		data(){
 			return{
-				list:[1,2,3,4,5,6]
+				list:[1,2,3,4,5,6],
+				news:[],
+				solution:[],
+				g_review_most_list:{},
+				link_list:{},
+				r_fastest_list:{},
+				r_words_most_list:{}
 			}
 		},
 		components:{
@@ -164,11 +189,20 @@
 			},
 			toNewsDetails(id){
 				this.$router.push({name:'details',params:{'id':id},replace:true})
-			}
+			},
 			// toNews(){
 			// 	this.$router.push({path:'/home/news',replace:true})
 			// 	this.$store.dispatch('hide')
 			// }
+			getHot(para){
+				return axios.post('api/lawyer/hot',para)
+			},
+			getNews(){
+				return axios.get('api/writings/news_list/1')
+			},
+			getSolution(para){
+				return axios.post('api/advice/get_list/public',para)
+			}
 		},
 		computed:{
 			...mapGetters([
@@ -176,37 +210,56 @@
 				'footShow',
 				'isShowParent',
 				'headShow'
-			])
-		},
-		/*home 组件可监听所有路由*/
-		watch:{
-			$route(to,from){
-				console.log(to.path)
-				if(to.path == '/home/news'){
-					this.$store.dispatch('hideFoot')
-					this.$store.dispatch('showParent')
-					this.$store.dispatch('changeTitle','律闻天下')
-				}else if(to.path.indexOf('/home/news/details') >-1){
-					this.$store.dispatch('hideFoot')
-					this.$store.dispatch('hideParent')
-					this.$store.dispatch('changeTitle','新闻详情')
-				}else if(to.path == '/lawyer'){
-					this.$store.dispatch('showHead')
-					this.$store.dispatch('lawyer')
-				}else if(to.path == '/case'){
-					this.$store.dispatch('showHead')
-					this.$store.dispatch('case')
-				}else if(to.path == '/mine'){
-					this.$store.dispatch('mine')
-					this.$store.dispatch('hideHead')
-				}
-				else{
-					this.$store.dispatch('showHead')
-					this.$store.dispatch('showFoot')
-         			this.$store.dispatch('showParent')
-				}
+			]),
+			solutions(){
+				let arr = []
+				this.solution.forEach((val,index)=>{
+					if(index<5){
+						arr.push(val)
+					}else{
+						return
+					}
+					return arr
+				})
+
 			}
+		},
+		beforeCreate(){
+
+		},
+		created(){
+			let _this = this
+			let para1 = {}
+			let para2 = {
+				law_code:'0',
+				page:1
+			}
+			para1 = qs.stringify(para1)
+			para2 = qs.parse(para2)
+			axios.all([_this.getHot(para1),_this.getNews(),_this.getSolution(para2)])
+			  .then(axios.spread((acct,perms,thirs)=>{
+			    //当这两个请求都完成的时候会触发这个函数，三个参数分别代表返回的结果
+			    console.log(acct)
+			    console.log(perms);
+			    console.log(thirs);
+			    if(acct.data.result){
+			    	let acctRes = acct.data.result
+			    	_this.g_review_most_list = acctRes.g_review_most_list[0]
+			    	_this.link_list = acctRes.g_review_most_list[1]
+			    	_this.r_fastest_list = acctRes.r_fastest_list[2]
+			    	_this.r_words_most_list = acctRes.r_words_most_list[1]
+			    }
+			    if(perms.data.result){
+			    	_this.news = perms.data.result
+			    }
+			    if(thirs.data.result){
+			    	_this.solution = thirs.data.result
+			    }
+			})).catch(error=>{
+			  	console.log(error)
+			})
 		}
+		
 	}
 </script>
 <style>
@@ -261,10 +314,12 @@
 	}
 	.news_list li{
 		padding: 0.3rem;
-		font-size: 0.24rem
+		font-size: 0.24rem;
+		border-bottom: 1px solid #eee;
 	}
 	.news_list li img{
-		min-width: 1.6rem;
+		width: 1.6rem;
+		max-width: 1.6rem;
 		height: 1.4rem;
 		margin-right: 0.2rem;
 	}
