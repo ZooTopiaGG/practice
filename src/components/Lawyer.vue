@@ -1,6 +1,6 @@
 <template>
 	<div class="lawyer">
-		<div>
+		<div class="scroll-wrap">
 			<ul>
 				<li v-for="(val,index) in list" :key="index">
 					<div class="flex flex-1 lawyerinfo">
@@ -36,6 +36,9 @@
 	}
 </script>
 <style scoped="scoped">
+	.lawyer{
+		background: #fff;
+	}
 	li{
 		padding: 0.3rem;
 		border-bottom: 1px solid #eee;

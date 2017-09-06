@@ -1,7 +1,7 @@
 <template>
 	<div class="news">
-		<Childhead></Childhead>
 		<div v-show="isShowParent">
+			<Childhead></Childhead>
 			<mt-loadmore :bottom-method="loadBottom" @bottom-status-change="handleBottomChange" :bottom-all-loaded="allLoaded" ref="loadmore">
 				<ul class="news_list">
 					<li v-for="(val,index) in news" class="flex flex-1" @click="toNewsDetails(val.id)" :key='index'>
@@ -19,17 +19,19 @@
 				</ul>
 			</mt-loadmore>
 		</div>
-		<div>
-			<keep-alive v-if="$route.meta.keepAlive">
-				<router-view></router-view>
-			</keep-alive>
-			<router-view v-else></router-view>
-		</div>
+		<!-- <div>
+			<div class="navs"></div>
+			<div>
+				<keep-alive v-if="$route.meta.keepAlive">
+					<router-view></router-view>
+				</keep-alive>
+				<router-view v-else></router-view>
+			</div>
+		</div> -->
 	</div>
 </template>
 <script>
-
-  	import Childhead from './Childhead.vue'
+	import Childhead from './Childhead.vue'
 	import { mapGetters } from 'vuex'
 	import axios from 'axios'
 	import qs from 'qs'
@@ -43,16 +45,17 @@
 				allLoaded:false,
 				status:'',
 				pages:'',
-				page:1
+				page:1,
+				transitionName:'slide-left'
 			}
+		},
+		components:{
+			Childhead
 		},
 		computed:mapGetters([
 			'isShowParent',
 			'changeTitle'
 		]),
-		components:{
-		    Childhead
-		},
 		methods:{
 			toNewsDetails(id){
 				this.$router.push({name:'details',params:{'id':id},replace:true})
@@ -65,7 +68,6 @@
 				var _this = this;
 				axios.get('api/writings/news_list/'+page)
 				.then(res=>{
-					console.log(res);
 					if(res.data.result){
 						let r = res.data.result
 						let count = res.data.result_total_count
@@ -73,7 +75,6 @@
 						r.forEach((val,index)=>{
 							_this.news.push(val)
 						})
-						console.log(_this.news)
 					}
 					_this.page++;
 				})
@@ -93,22 +94,20 @@
 			},
 			handleBottomChange(status){
 				this.bottomStatus = status;
-				console.log(status);
 
 			}
 		},
+		
 		beforeCreate(){
 			Indicator.open();
 		},
 		created(){
 			this.getNews(this.page)
-		},
-		mounted(){
-			console.log(Indicator)
 		}
 	}
 </script>
 <style scoped="scoped">
+	
 	.news_list li{
 		padding: 0.3rem;
 		font-size: 0.24rem

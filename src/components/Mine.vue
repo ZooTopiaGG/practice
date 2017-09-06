@@ -1,6 +1,6 @@
 <template>
 	<div class="mine">
-		<div v-show="isShowParent">
+		<div v-show="isShowParent" class="scroll-wrap">
 			<div class="part1 flex flex-1">
 				<div class="img">
 					<img src="../assets/images/new_zjm_icon49@3x.png">
@@ -63,7 +63,7 @@
 			<div class="part4">
 				<ul class="list1">
 					<li>
-						<router-link to="/mine/charge">
+						<router-link to="/charge">
 							<div class="flex flex-1">
 								<img class="img1" src="../assets/images/new_grzx_icon92@2x.png">
 								<p>收费设置</p>
@@ -72,7 +72,7 @@
 						</router-link>
 					</li>
 					<li>
-						<router-link to="/mine/business">
+						<router-link to="/business">
 							<div class="flex flex-1">
 								<img class="img1" src="../assets/images/new_grzx_icon76@2x.png">
 								<p>业务互助</p>
@@ -81,7 +81,7 @@
 						</router-link>
 					</li>
 					<li>
-						<router-link to="/mine/discuss">
+						<router-link to="/discuss">
 							<div class="flex flex-1">
 								<img class="img1" src="../assets/images/new_grzx_icon77@2x.png">
 								<p>评论回复</p>
@@ -90,7 +90,7 @@
 						</router-link>
 					</li>
 					<li>
-						<router-link to="/mine/original">
+						<router-link to="/original">
 							<div class="flex flex-1">
 								<img class="img1" src="../assets/images/new_grzx_icon78@2x.png">
 								<p>我的原创</p>
@@ -99,7 +99,7 @@
 						</router-link>
 					</li>
 					<li>
-						<router-link to="/mine/collection">
+						<router-link to="/collection">
 							<div class="flex flex-1">
 								<img class="img1" src="../assets/images/new_grzx_icon79@2x.png">
 								<p>我的收藏</p>
@@ -111,7 +111,7 @@
 				<div class="box-line"></div>
 				<ul class="list1">
 					<li >
-						<router-link to="/mine/feedback">
+						<router-link to="/feedback">
 							<div class="flex flex-1">
 								<img class="img1" src="../assets/images/new_grzx_icon80@2x.png">
 								<p>意见反馈</p>
@@ -120,7 +120,7 @@
 						</router-link>
 					</li>
 					<li>
-						<router-link to="/mine/help">
+						<router-link to="/help">
 							<div class="flex flex-1">
 								<img class="img1" src="../assets/images/new_grzx_icon81@2x.png">
 								<p>使用帮助</p>
@@ -129,7 +129,7 @@
 						</router-link>
 					</li>
 					<li>
-						<router-link to="/mine/about">
+						<router-link to="/about">
 							<div class="flex flex-1">
 								<img class="img1" src="../assets/images/new_grzx_icon82@2x.png">
 								<p>关于我们</p>
@@ -140,11 +140,12 @@
 				</ul>
 			</div>
 		</div>
-		<div>
+		<!-- <div>
+			<div class="navs"></div>
 			<keep-alive>
 				<router-view></router-view>
 			</keep-alive>
-		</div>
+		</div> -->
 	</div>
 </template>
 <script>
@@ -153,7 +154,7 @@
 		name:'mine',
 		data(){
 			return {
-				
+				transitionName: 'slide-left'
 			}
 		},
 		computed:{
@@ -162,12 +163,16 @@
 			])
 		},
 		methods: {
-		  	
+
 		},
 		
 	}
 </script>
+
 <style scoped="scoped">
+	.mine{
+		background: #fff;
+	}
 	.list1 li{
 		position: relative;
 		height: 0.88rem;

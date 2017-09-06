@@ -15,3 +15,8 @@
 		}
 	}
 </script>
+<style type="text/css">
+	.charge{
+		box-shadow: none !important;
+	}
+</style>

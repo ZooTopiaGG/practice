@@ -31,5 +31,11 @@ export default {
 	},
 	hideParent:({commit})=>{
 		commit('hideParent')
-	}
+	},
+	showCover:({commit})=>{
+		commit('showCover')
+	},
+	hideCover:({commit})=>{
+		commit('hideCover')
+	}	
 }

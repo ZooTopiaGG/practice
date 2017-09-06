@@ -17,69 +17,104 @@ var Routes = [
 	 {
 		path:'/home',
 		component:Home,
-		children:[
-			{
-				path:'news',
-				component:News,
-				children:[
-					{
-						path:'details/:id',
-						name: 'details',
-						component:Newsdetails,
-						meta:{
-							keepAlive: true
-						}
-					}
-				]
-			}
-		]
+		meta:{
+			keepAlive: true
+		}
 	},
 	{
-		path:'/lawyer',component:Lawyer
+		path:'/news',
+		component:News,
+		meta:{
+			keepAlive: true
+		}
 	},
 	{
-		path:'/case',component:Case
+		path:'/details/:id',
+		name: 'details',
+		component:Newsdetails,
+		meta:{
+			keepAlive: false
+		}
+	},
+	{
+		path:'/lawyer',
+		component:Lawyer,
+		meta:{
+			keepAlive: true
+		}
+	},
+	{
+		path:'/case',
+		component:Case,
+		meta:{
+			keepAlive: true
+		}
 	},
 	{
 		path:'/mine',
 		component:Mine,
-		children:[
-			{
-				path:'charge',
-				component:Charge
-			},
-			{
-				path:'business',
-				component:Business
-			},
-			{
-				path:'discuss',
-				component:Discuss
-			},
-			{
-				path:'help',
-				component:Help
-			},
-			{
-				path:'original',
-				component:Original
-			},
-			{
-				path:'collection',
-				component:Collection
-			},
-			{
-				path:'feedback',
-				component:Feedback
-			},
-			{
-				path:'about',
-				component:About
-			},
-		]
+		meta:{
+			keepAlive: true
+		}
 	},
 	{
-		path:'/home',redirect:'/home'
+		path:'/charge',
+		component:Charge,
+		meta:{
+			keepAlive: true
+		}
+	},
+	{
+		path:'/business',
+		component:Business,
+		meta:{
+			keepAlive: true
+		}
+	},
+	{
+		path:'/discuss',
+		component:Discuss,
+		meta:{
+			keepAlive: true
+		}
+	},
+	{
+		path:'/help',
+		component:Help,
+		meta:{
+			keepAlive: true
+		}
+	},
+	{
+		path:'/original',
+		component:Original,
+		meta:{
+			keepAlive: true
+		}
+	},
+	{
+		path:'/collection',
+		component:Collection,
+		meta:{
+			keepAlive: true
+		}
+	},
+	{
+		path:'/feedback',
+		component:Feedback,
+		meta:{
+			keepAlive: true
+		}
+	},
+	{
+		path:'/about',
+		component:About,
+		meta:{
+			keepAlive: true
+		}
+	},
+	{
+		path:'/',redirect:'/home'
 	},
 	{
 		path:'*',redirect:'/home'

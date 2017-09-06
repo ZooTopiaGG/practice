@@ -15,3 +15,8 @@
 		}
 	}
 </script>
+<style type="text/css">
+	.feedback{
+		box-shadow: none !important;
+	}
+</style>

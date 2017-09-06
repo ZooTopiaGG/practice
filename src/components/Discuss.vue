@@ -15,3 +15,8 @@
 		}
 	}
 </script>
+<style type="text/css">
+	.discuss{
+		box-shadow: none !important;
+	}
+</style>

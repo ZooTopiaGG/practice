@@ -13,5 +13,8 @@ export default {
 	},
 	isShowParent:(state)=>{
 		return state.ishowParent
+	},
+	coverShow:(state)=>{
+		return state.coverShow
 	}
 }

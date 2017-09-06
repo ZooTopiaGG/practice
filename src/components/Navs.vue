@@ -29,6 +29,9 @@
     // }
   }
 </script>
+<style type="text/css" scoped="scoped">
+   
+</style>
 <style type="text/css">
 	.mint-header,.nav{
     height: 0.88rem;

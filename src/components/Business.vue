@@ -15,3 +15,8 @@
 		}
 	}
 </script>
+<style type="text/css">
+	.business{
+		box-shadow: none !important;
+	}
+</style>

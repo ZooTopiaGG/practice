@@ -1,35 +1,91 @@
 <template>
+	
 	<div class="case">
-		<div>
-			<ul>
-				<li v-for="(val,index) in list" :key="index">
-					<div class="flex flex-1 flex-pack-justify">
-						<div>
-							接单律师：<span>邓鹏</span> | <span>林大大</span>
+		<div class="scroll-wrap">
+			<mt-loadmore :bottom-method="loadBottom" @bottom-status-change="handleBottomChange" :bottom-all-loaded="allLoaded" ref="loadmore">
+				<ul>
+					<li v-for="(val,index) in caselist" :key="index">
+						<div class="flex flex-1 flex-pack-justify">
+							<div>
+								接单律师：<span>{{ val.u_names }}</span>
+							</div>
+							<div>{{ val.city }}</div>
 						</div>
-						<div>成都市</div>
-					</div>
-					<div class="content ellipsis ellipsis-4">
-						 这是她与香儿早就商量好的暗号，听她连敲三声，就从墙那边把梯子给递过来。果然很快一副竹梯从墙后露了出来，她连忙上前接过，小心地按好，然后爬了上去，到了墙头，往内一看，果见香儿焦急地在看着她。轻轻做了个禁声的动作，她又把梯子翻到墙内，从墙上小心地爬下。
-					</div>
-				</li>
-			</ul>
+						<div class="content ellipsis ellipsis-4">
+							 {{ val.desc }}
+						</div>
+					</li>
+				</ul>
+			</mt-loadmore>
 		</div>
 	</div>
 </template>
 <script>
+	import axios from 'axios'
+	import qs from 'qs'
+	import { Toast , Indicator } from 'mint-ui'
 	export default {
 		name:'case',
 		data(){
 			return{
-				list:[1,2,3,4,5,6]
+				allLoaded:false,
+				status:'',
+				caselist:[],
+				pages:'',
+				page:1
 			}
+		},
+		methods:{
+			getCase(page){
+				var _this = this;
+				var para = {
+					page:page,
+					law_code:'0'
+				}
+				para = qs.parse(para)
+				axios.post('api/advice/get_list/public',para)
+				.then(res=>{
+					console.log(res);
+					if(res.data.result){
+						let r = res.data.result;
+						_this.pages = Math.ceil( res.data.result_total_count/10 )
+						r.forEach((val,index)=>{
+							_this.caselist.push(val)
+						})
+						console.log(_this.caselist);
+					}
+					_this.page++
+				})
+				.catch(error=>{
+					console.log(error);
+				})
+			},
+			loadBottom() {
+			  // 加载更多数据
+			  if(this.page<this.pages){
+			  	this.getCase(this.page)
+			  	this.allLoaded = false;
+			  }else{
+				  this.allLoaded = true;// 若数据已全部获取完毕
+				  this.$refs.loadmore.onBottomLoaded();
+			  }
+			},
+			handleBottomChange(status){
+				this.bottomStatus = status;
+				console.log(status);
+			}
+		},
+		beforeCreate(){
+			Indicator.open()
+		},
+		created(){
+			this.getCase(this.page)
 		}
 	}
 </script>
 <style scoped="scoped">
 	.case{
-		
+		background: #fff;
 	}
 	li{
 		padding: 0.4rem 0.3rem 0.35rem;

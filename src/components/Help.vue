@@ -15,3 +15,8 @@
 		}
 	}
 </script>
+<style type="text/css">
+	.help{
+		box-shadow: none !important;
+	}
+</style>

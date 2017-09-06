@@ -5,7 +5,6 @@
 	</div>
 </template>
 <script>
-
 	import Childhead from './Childhead.vue'
 	import Notopen from './Notopen.vue'
 	export default{
@@ -16,3 +15,8 @@
 		}
 	}
 </script>
+<style type="text/css">
+	.collection{
+		box-shadow: none !important;
+	}
+</style>

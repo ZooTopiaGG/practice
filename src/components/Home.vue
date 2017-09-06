@@ -1,6 +1,6 @@
 <template>
 <div class="home">
-	<div v-show="footShow">
+	<div v-show="isShowParent" class="scroll-wrap">
 		<div class="banner">
 			<mt-swipe :auto="4000">
 			  <mt-swipe-item>
@@ -87,7 +87,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="box-line"></div>
+		<!-- <div class="box-line"></div>
 		<div class="solutions">
 			<div class="modal_title">
 				<img src="../assets/images/new_zjm_icon32@2x.png">
@@ -108,14 +108,14 @@
 					</div>
 				</li>
 			</ul>
-		</div>
+		</div> -->
 		<div class="box-line"></div>
 		<div class="news">
 			<div class="modal_title">
 				<img src="../assets/images/new_zjm_icon31@2x.png">
 				<span>律闻天下</span>
 				<keep-alive>
-					<router-link to="/home/news">
+					<router-link to="/news">
 						<span class="more">更多</span>
 					</router-link>
 				</keep-alive>
@@ -138,17 +138,21 @@
 			</div>
 		</div>
 	</div>
-	<div>
-		<keep-alive>
-			<router-view></router-view>
-		</keep-alive>
-	</div>
+	<!-- <div>
+		<div class="navs"></div>
+		<div>
+			<keep-alive v-if="$route.meta.keepAlive">
+				<router-view class="child-view"></router-view>
+			</keep-alive>
+			<router-view v-else class="child-view"></router-view>
+		</div>
+	</div> -->
 </div>
 </template>
 <script>
 	import Vue from 'vue'
 	import { mapGetters } from 'vuex'
-	import News from './News.vue'
+	import Childhead from './Childhead.vue'
 	import axios from 'axios'
 	import qs from 'qs'
 	import { Toast , Indicator } from 'mint-ui'
@@ -172,11 +176,12 @@
 				g_review_most_list:{},
 				link_list:{},
 				r_fastest_list:{},
-				r_words_most_list:{}
+				r_words_most_list:{},
+				transitionName: 'slide-left'
 			}
 		},
 		components:{
-			News
+			Childhead
 		},
 		methods:{
 			toLawyer(){
@@ -224,9 +229,6 @@
 
 			}
 		},
-		beforeCreate(){
-
-		},
 		created(){
 			let _this = this
 			let para1 = {}
@@ -236,12 +238,9 @@
 			}
 			para1 = qs.stringify(para1)
 			para2 = qs.parse(para2)
-			axios.all([_this.getHot(para1),_this.getNews(),_this.getSolution(para2)])
-			  .then(axios.spread((acct,perms,thirs)=>{
+			axios.all([_this.getHot(para1),_this.getNews()])
+			  .then(axios.spread((acct,perms)=>{
 			    //当这两个请求都完成的时候会触发这个函数，三个参数分别代表返回的结果
-			    console.log(acct)
-			    console.log(perms);
-			    console.log(thirs);
 			    if(acct.data.result){
 			    	let acctRes = acct.data.result
 			    	_this.g_review_most_list = acctRes.g_review_most_list[0]
@@ -252,9 +251,9 @@
 			    if(perms.data.result){
 			    	_this.news = perms.data.result
 			    }
-			    if(thirs.data.result){
-			    	_this.solution = thirs.data.result
-			    }
+			    // if(thirs.data.result){
+			    // 	_this.solution = thirs.data.result
+			    // }
 			})).catch(error=>{
 			  	console.log(error)
 			})
@@ -270,6 +269,9 @@
 	}
 </style>
 <style scoped="scoped">
+	.home{
+		background: #fff;
+	}
 	.modal_title {
 		position: relative;
 	}

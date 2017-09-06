@@ -15,3 +15,8 @@
 		}
 	}
 </script>
+<style type="text/css">
+	.original{
+		box-shadow: none !important;
+	}
+</style>

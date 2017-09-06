@@ -3,5 +3,6 @@ export default {
 	footShow:true,
 	title:'首页',
 	changeTitle:'',
-	ishowParent:true
+	ishowParent:true,
+	coverShow:true
 }
